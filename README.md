@@ -16,6 +16,24 @@ The hashes file must contain username and password hash separated by a
 semicolon, one credentials pair per line. There should be no quoting or CSV
 header.
 
+## Dockerfile
+
+The provided Dockerfile runs the server on port 8080. The data file should be
+mounted to `/data/logins.csv`. (An alternative file name can be passed in as
+argument.)
+
+To build:
+
+    docker build . -t dbrgn/traefik-phpbb-basic-auth:latest
+
+To run (with the data in `logins.csv`):
+
+    docker run --rm -p 8080:8080 -v "$(pwd):/data" dbrgn/traefik-phpbb-basic-auth
+
+To run (with the data in `/tmp/hashes.csv`):
+
+    docker run --rm -p 8080:8080 -v "/tmp:/data" dbrgn/traefik-phpbb-basic-auth /data/hashes.csv
+
 ## License
 
 MIT

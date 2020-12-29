@@ -138,7 +138,7 @@ async fn main() {
     });
 
     // Construct our SocketAddr to listen on...
-    let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
 
     // And a MakeService to handle each connection...
     let make_service = make_service_fn(|_conn| async { Ok::<_, Infallible>(service_fn(handle)) });
