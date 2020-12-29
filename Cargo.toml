@@ -1,0 +1,11 @@
+[package]
+name = "traefik-phpbb-basic-auth"
+version = "0.1.0"
+authors = ["Danilo Bargen <mail@dbrgn.ch>"]
+edition = "2018"
+
+[dependencies]
+base64 = "0.13"
+hyper = { version = "0.14", features = ["server", "http1", "http2", "runtime"] }
+phpbb-pwhash = "0.1.1"
+tokio = { version = "1", features = ["rt", "macros"] }
