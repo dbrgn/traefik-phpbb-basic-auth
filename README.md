@@ -2,6 +2,12 @@
 
 Log in using static phpbb3 hashes and the Traefik ForwardAuth middleware.
 
+## Building
+
+Requirements: Rust and Cargo.
+
+    cargo build --release
+
 ## Usage
 
     traefik-phpbb-basic-auth <hashes-file>
