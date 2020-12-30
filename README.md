@@ -16,6 +16,12 @@ The hashes file must contain username and password hash separated by a
 semicolon, one credentials pair per line. There should be no quoting or CSV
 header.
 
+## Configuration
+
+The service can be configured using the following env vars:
+
+- `BASIC_AUTH_REALM`: The realm used for basic auth (defaults to `Login`)
+
 ## Dockerfile
 
 The provided Dockerfile runs the server on port 8080. The data file should be

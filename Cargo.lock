@@ -475,6 +475,7 @@ version = "0.1.0"
 dependencies = [
  "base64 0.13.0",
  "hyper",
+ "lazy_static",
  "phpbb-pwhash",
  "tokio",
 ]

@@ -10,10 +10,16 @@ use hyper::{
     service::{make_service_fn, service_fn},
     Body, Request, Response, Server, StatusCode,
 };
+use lazy_static::lazy_static;
 use phpbb_pwhash::{check_hash, CheckHashResult};
 
 thread_local! {
-    pub static LOGINS: RefCell<HashMap<String, String>> = RefCell::new(HashMap::with_capacity(0));
+    static LOGINS: RefCell<HashMap<String, String>> = RefCell::new(HashMap::with_capacity(0));
+}
+
+lazy_static! {
+    static ref BASIC_AUTH_REALM: String =
+        std::env::var("BASIC_AUTH_REALM").unwrap_or_else(|_| "Login".to_string());
 }
 
 /// Handle a single request.
@@ -81,7 +87,7 @@ async fn handle_noauth() -> Result<Response<Body>, Infallible> {
     let resp = Response::builder()
         .header(
             "www-authenticate",
-            "Basic realm=\"Tavernen-Login\", charset=\"UTF-8\"",
+            format!("Basic realm=\"{}\", charset=\"UTF-8\"", *BASIC_AUTH_REALM),
         )
         .status(StatusCode::UNAUTHORIZED)
         .body(Body::from("Basic auth missing"))
