@@ -85,11 +85,11 @@ async fn handle_auth(auth_value: &[u8]) -> Result<Response<Body>, Infallible> {
 /// Handle a request with no or an invalid authentication header
 async fn handle_noauth() -> Result<Response<Body>, Infallible> {
     let resp = Response::builder()
+        .status(StatusCode::UNAUTHORIZED)
         .header(
             "www-authenticate",
             format!("Basic realm=\"{}\", charset=\"UTF-8\"", *BASIC_AUTH_REALM),
         )
-        .status(StatusCode::UNAUTHORIZED)
         .body(Body::from("Basic auth missing"))
         .unwrap();
     println!("[handle_noauth] Basic auth missing");
@@ -115,28 +115,35 @@ fn read_hashes(filepath: &str) -> std::io::Result<HashMap<String, String>> {
 
 #[tokio::main(flavor = "current_thread")] // Single-threaded runtime
 async fn main() {
+    // Show help
+    if std::env::args().any(|arg| arg == "-h" || arg == "--help") {
+        eprintln!("Usage: {}", std::env::args().next().unwrap());
+        eprintln!();
+        eprintln!("Configuration through env vars:");
+        eprintln!();
+        eprintln!("- `LOGINS_FILE`: The path to the logins file (defaults to `logins.txt`)");
+        eprintln!("- `BASIC_AUTH_REALM`: The realm used for basic auth (defaults to `Login`)");
+        eprintln!();
+        eprintln!("Note: The logins file must contain username and password hash separated by a semicolon,");
+        eprintln!("      one credentials pair per line. There should be no quoting or CSV header.");
+        std::process::exit(1);
+    }
+
+    // Show version
     println!(
         "Starting traefik-phpbb-basic-auth v{}",
         env!("CARGO_PKG_VERSION")
     );
 
-    // Parse arguments
-    let args: Vec<String> = std::env::args().collect();
-    if args.len() != 2 {
-        eprintln!("Usage: {} <hashes-file>", args[0]);
-        eprintln!();
-        eprintln!("Note: The hashes file must contain username and password hash separated by a semicolon,");
-        eprintln!("      one credentials pair per line. There should be no quoting or CSV header.");
-        std::process::exit(1);
-    }
-
     // Read hashes
-    println!("Loading {}", &args[1]);
+    let logins_file =
+        std::env::var("LOGINS_FILE").unwrap_or_else(|_| "logins.txt".to_string());
+    println!("Loading logins from {}", logins_file);
     LOGINS.with(|map| {
-        let logins = match read_hashes(&args[1]) {
+        let logins = match read_hashes(&logins_file) {
             Ok(map) => map,
             Err(e) => {
-                eprintln!("Could not read hashes file: {:?}", e);
+                eprintln!("Could not read logins file at {}: {:?}", logins_file, e);
                 std::process::exit(2);
             }
         };

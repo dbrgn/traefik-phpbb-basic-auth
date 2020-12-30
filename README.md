@@ -20,25 +20,26 @@ header.
 
 The service can be configured using the following env vars:
 
+- `LOGINS_FILE`: The path to the logins file (defaults to `logins.txt`)
 - `BASIC_AUTH_REALM`: The realm used for basic auth (defaults to `Login`)
 
 ## Dockerfile
 
 The provided Dockerfile runs the server on port 8080. The data file should be
-mounted to `/data/logins.csv`. (An alternative file name can be passed in as
-argument.)
+mounted to `/data/logins.txt`. (An alternative location can be configured with
+the `LOGINS_FILE` env var.)
 
 To build:
 
     docker build . -t dbrgn/traefik-phpbb-basic-auth:latest
 
-To run (with the data in `logins.csv`):
+To run (with the data in `./logins.txt`):
 
     docker run --rm -p 8080:8080 -v "$(pwd):/data" dbrgn/traefik-phpbb-basic-auth
 
-To run (with the data in `/tmp/hashes.csv`):
+To run (with the data in `/tmp/hashes.txt`):
 
-    docker run --rm -p 8080:8080 -v "/tmp:/data" dbrgn/traefik-phpbb-basic-auth /data/hashes.csv
+    docker run --rm -p 8080:8080 -v "/tmp:/data" -e LOGINS_FILE=/data/hashes.txt dbrgn/traefik-phpbb-basic-auth
 
 ## License
 
