@@ -44,6 +44,7 @@ async fn handle_auth(auth_value: &[u8]) -> Result<Response<Body>, Infallible> {
         println!("[handle_auth  ] Invalid ({})", reason.as_ref());
         Ok(Response::builder()
             .status(StatusCode::FORBIDDEN)
+            .header("content-type", "text/plain")
             .header(
                 "www-authenticate",
                 format!("Basic realm=\"{}\", charset=\"UTF-8\"", *BASIC_AUTH_REALM),
@@ -90,6 +91,7 @@ async fn handle_auth(auth_value: &[u8]) -> Result<Response<Body>, Infallible> {
 async fn handle_noauth() -> Result<Response<Body>, Infallible> {
     let resp = Response::builder()
         .status(StatusCode::UNAUTHORIZED)
+        .header("content-type", "text/plain")
         .header(
             "www-authenticate",
             format!("Basic realm=\"{}\", charset=\"UTF-8\"", *BASIC_AUTH_REALM),
