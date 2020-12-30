@@ -45,11 +45,7 @@ async fn handle_auth(auth_value: &[u8]) -> Result<Response<Body>, Infallible> {
         Ok(Response::builder()
             .status(StatusCode::FORBIDDEN)
             .header("content-type", "text/plain")
-            .header(
-                "www-authenticate",
-                format!("Basic realm=\"{}\", charset=\"UTF-8\"", *BASIC_AUTH_REALM),
-            )
-            .body(Body::from("Authentication failed"))
+            .body(Body::from("Authentication failed. To retry, please close and re-open your browser."))
             .unwrap())
     }
 

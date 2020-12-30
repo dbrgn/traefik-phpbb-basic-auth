@@ -2,6 +2,11 @@
 
 Log in using static phpbb3 hashes and the Traefik ForwardAuth middleware.
 
+Note: It is not possible to reliably clear basic auth login data stored in the
+browser. This means that if a user enters the wrong credentials, the browser
+must be closed and re-opened in order for the basic auth login window to pop up
+again.
+
 ## Building
 
 Requirements: Rust and Cargo.
