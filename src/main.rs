@@ -44,6 +44,10 @@ async fn handle_auth(auth_value: &[u8]) -> Result<Response<Body>, Infallible> {
         println!("[handle_auth  ] Invalid ({})", reason.as_ref());
         Ok(Response::builder()
             .status(StatusCode::FORBIDDEN)
+            .header(
+                "www-authenticate",
+                format!("Basic realm=\"{}\", charset=\"UTF-8\"", *BASIC_AUTH_REALM),
+            )
             .body(Body::from("Authentication failed"))
             .unwrap())
     }
