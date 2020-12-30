@@ -44,7 +44,9 @@ To run (with the data in `./logins.txt`):
 
 To run (with the data in `/tmp/hashes.txt`):
 
-    docker run --rm -p 8080:8080 -v "/tmp:/data" -e LOGINS_FILE=/data/hashes.txt dbrgn/traefik-phpbb-basic-auth
+    docker run --rm -p 8080:8080 -v "/tmp:/data" \
+        -e LOGINS_FILE=/data/hashes.txt \
+        dbrgn/traefik-phpbb-basic-auth
 
 ## License
 
