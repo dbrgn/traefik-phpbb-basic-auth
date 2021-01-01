@@ -19,7 +19,7 @@ Requirements: Rust and Cargo.
 
 The hashes file must contain username and password hash separated by a
 semicolon, one credentials pair per line. There should be no quoting or CSV
-header.
+header. Note: Username matching is case insensitive.
 
 ## Configuration
 

@@ -65,7 +65,7 @@ async fn handle_auth(auth_value: &[u8]) -> Result<Response<Body>, Infallible> {
     let password = parts[1];
 
     // Lookup credentials
-    let hash: String = match LOGINS.with(|map| map.borrow().get(username).cloned()) {
+    let hash: String = match LOGINS.with(|map| map.borrow().get(&username.to_lowercase()).cloned()) {
         Some(hash) => hash,
         None => {
             return invalid("User not found");
@@ -109,7 +109,7 @@ fn read_hashes(filepath: &str) -> std::io::Result<HashMap<String, String>> {
                 eprintln!("Invalid entry: No semicolon found on line {}", i + 1);
                 continue;
             }
-            map.insert(parts[0].to_string(), parts[1].to_string());
+            map.insert(parts[0].to_lowercase(), parts[1].to_string());
         }
     }
     Ok(map)
@@ -128,6 +128,7 @@ async fn main() {
         eprintln!();
         eprintln!("Note: The logins file must contain username and password hash separated by a semicolon,");
         eprintln!("      one credentials pair per line. There should be no quoting or CSV header.");
+        eprintln!("      Note: Username matching is case insensitive.");
         std::process::exit(1);
     }
 
