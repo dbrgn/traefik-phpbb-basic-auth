@@ -169,9 +169,9 @@ checksum = "494b4d60369511e7dea41cf646832512a94e542f68bb9c49e54518e0f468eb47"
 
 [[package]]
 name = "hyper"
-version = "0.14.1"
+version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b7b980c7bc75203b968f06374cbde00bf1818e02e156b8e5b6ccf440fb53b6d0"
+checksum = "12219dc884514cb4a6a03737f4413c0e01c23a1b059b0156004b23f1e19dccbe"
 dependencies = [
  "bytes 1.0.0",
  "futures-channel",
@@ -242,9 +242,9 @@ checksum = "0ee1c47aaa256ecabcaea351eae4a9b01ef39ed810004e298d2511ed284b1525"
 
 [[package]]
 name = "mio"
-version = "0.7.6"
+version = "0.7.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f33bc887064ef1fd66020c9adfc45bb9f33d75a42096c81e7c56c65b75dd1a8b"
+checksum = "e50ae3f04d169fcc9bde0b547d1c205219b7157e07ded9c5aff03e0637cb3ed7"
 dependencies = [
  "libc",
  "log",
@@ -471,7 +471,7 @@ dependencies = [
 
 [[package]]
 name = "traefik-phpbb-basic-auth"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "base64 0.13.0",
  "hyper",
